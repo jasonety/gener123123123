@@ -1,11 +1,16 @@
-const express = require('express');
-const path = require('path');
-const dotenv = require('dotenv');
-const axios = require('axios');
-const { google } = require('googleapis'); // [추가] 구글 API 라이브러리
+import express from 'express';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+import axios from 'axios';
+import { google } from 'googleapis';
+
+// ESM 환경에서 __dirname 사용을 위한 설정
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
-const PORT = 80;
+const PORT = process.env.PORT || 80;
 
 dotenv.config();
 
@@ -21,13 +26,14 @@ const credentials = JSON.parse(envCredentials);
 credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
 
 const auth = new google.auth.GoogleAuth({
-  credentials, // 파일 경로 대신 가공된 데이터를 직접 넣음
+  credentials,
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
 const spreadsheetId = process.env.SPREADSHEET_ID;
 
-const codeStore = require('./services/code-store');
-const { checkMessageExists } = require('./services/octomo.client');
+// 서비스 파일들도 ESM 방식으로 불러와야 합니다 (확장자 .js 필수)
+import codeStore from './services/code-store.js';
+import { checkMessageExists } from './services/octomo.client.js';
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -39,11 +45,10 @@ function generateFourDigitCode() {
   return String(n);
 }
 
-// [추가] 구글 시트에 데이터를 저장하는 함수
+// 구글 시트에 데이터를 저장하는 함수
 async function saveToSheet(formData) {
   const sheets = google.sheets({ version: 'v4', auth });
   
-  // 데이터 배열 생성 (공통으로 사용)
   const rowData = [
     new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }), 
     formData.name,       
@@ -59,10 +64,9 @@ async function saveToSheet(formData) {
   ];
 
   try {
-    // 1. [기본] '구매자 기록부' 시트에 저장 (기존 로직)
     const resMain = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: '구매자 기록부!B4:B18', // 탭 이름 확인 필수!
+      range: '구매자 기록부!B4:B18', 
     });
     const nextRowMain = (resMain.data.values || []).length + 4;
 
@@ -76,12 +80,10 @@ async function saveToSheet(formData) {
       console.log(`✅ 구매자 기록부 ${nextRowMain}행 기록 완료`);
     }
 
-    // 2. [추가] 만 14세 미만인 경우 '미성년자 관리' 시트에 추가 저장
     if (formData.isMinor === true) {
-      // 미성년자 시트의 빈 줄을 찾습니다. (마찬가지로 4행부터 시작한다고 가정)
       const resMinor = await sheets.spreadsheets.values.get({
         spreadsheetId,
-        range: '미성년자 관리!B4:B100', // 미성년자 시트 범위
+        range: '미성년자 관리!B4:B100',
       });
       const nextRowMinor = (resMinor.data.values || []).length + 4;
 
@@ -93,7 +95,6 @@ async function saveToSheet(formData) {
       });
       console.log(`💖 미성년자 관리 시트 ${nextRowMinor}행 추가 기록 완료`);
     }
-
   } catch (err) {
     console.error('❌ 시트 저장 오류:', err.message);
   }
@@ -109,10 +110,7 @@ app.get('/complete', (req, res) => {
 
 // Discord 웹훅 전송 함수
 async function sendToDiscord(formData) {
-  if (!process.env.DISCORD_WEBHOOK_URL) {
-    console.log('Discord webhook URL not configured');
-    return false;
-  }
+  if (!process.env.DISCORD_WEBHOOK_URL) return false;
 
   try {
     const embed = {
@@ -131,9 +129,7 @@ async function sendToDiscord(formData) {
           inline: true
         }
       ],
-      footer: {
-        text: '제출 시간'
-      }
+      footer: { text: '제출 시간' }
     };
 
     if (formData.isMinor && formData.guardian) {
@@ -144,17 +140,11 @@ async function sendToDiscord(formData) {
       });
     }
 
-    const payload = {
+    await axios.post(process.env.DISCORD_WEBHOOK_URL, {
       username: '정책 동의서 봇',
       embeds: [embed]
-    };
-
-    await axios.post(process.env.DISCORD_WEBHOOK_URL, payload, {
-      headers: { 'Content-Type': 'application/json' },
-      timeout: 10000
     });
 
-    console.log('Discord webhook sent successfully');
     return true;
   } catch (error) {
     console.error('Discord webhook error:', error.message);
@@ -164,71 +154,40 @@ async function sendToDiscord(formData) {
 
 app.post('/submit', async (req, res) => {
     const formData = req.body;
-    console.log('Received form data:', formData);
-
     try {
-      // 1. Discord 웹훅으로 전송
-      const discordSent = await sendToDiscord(formData);
-      
-      // 2. [추가] 구글 시트로 전송;
+      await sendToDiscord(formData);
       await saveToSheet(formData); 
-      
-      if (discordSent) {
-        console.log('Form data sent to Discord successfully');
-      } else {
-        console.log('Failed to send to Discord, but continuing with submission');
-      }
-      
-      res.json({ success: true, message: '감사합니다. 제출이 완료되었습니다.' });
+      res.json({ success: true, message: '제출이 완료되었습니다.' });
     } catch (error) {
-      console.error('Submission error:', error);
-      res.status(500).json({ success: false, message: '제출 중 오류가 발생했습니다.' });
+      res.status(500).json({ success: false, message: '오류가 발생했습니다.' });
     }
 });
 
-// 인증 코드 발급 엔드포인트 (기존 로직 유지)
 app.post('/api/auth/issue-code', (req, res) => {
   const phoneNumber = req.body?.phoneNumber;
-  if (typeof phoneNumber !== 'string' || !phoneNumber.trim()) {
-    console.log('Code issue failed: phoneNumber is required');
-    res.status(400).json({ error: 'phoneNumber is required' });
-    return;
-  }
+  if (!phoneNumber) return res.status(400).json({ error: 'phoneNumber is required' });
 
   const code = generateFourDigitCode();
   codeStore.set(phoneNumber.trim(), code);
-  console.log('Code issued for', phoneNumber.trim(), ':', code);
   res.json({ code });
 });
 
-// 전화번호 인증 엔드포인트 (기존 로직 유지)
 app.post('/api/auth/verify', async (req, res) => {
   const phoneNumber = req.body?.phoneNumber;
-  if (typeof phoneNumber !== 'string' || !phoneNumber.trim()) {
-    res.status(400).json({ error: 'phoneNumber is required', verified: false });
-    return;
-  }
+  if (!phoneNumber) return res.status(400).json({ error: 'phoneNumber is required', verified: false });
 
   const trimmed = phoneNumber.trim();
   const code = codeStore.get(trimmed);
-
-  if (!code) {
-    console.log('Verification failed: No code found for', trimmed);
-    res.status(400).json({ error: 'No verification code found', verified: false });
-    return;
-  }
+  if (!code) return res.status(400).json({ error: 'No code found', verified: false });
 
   try {
     const exists = await checkMessageExists(trimmed, code);
-    console.log('Verification result for', trimmed, ':', exists ? 'SUCCESS' : 'FAILED');
     res.json({ verified: exists });
   } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error('Octomo verify error for', trimmed, ':', message);
     res.status(500).json({ error: 'Phone verification failed' });
   }
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on port ${PORT}`);
 });
