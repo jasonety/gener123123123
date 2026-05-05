@@ -32,7 +32,7 @@ const auth = new google.auth.GoogleAuth({
 const spreadsheetId = process.env.SPREADSHEET_ID;
 
 // 서비스 파일들도 ESM 방식으로 불러와야 합니다 (확장자 .js 필수)
-import codeStore from './services/code-store.js';
+import * as codeStore from './services/code-store.js';
 import { checkMessageExists } from './services/octomo.client.js';
 
 app.use(express.static('public'));
