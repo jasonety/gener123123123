@@ -9,11 +9,21 @@ const PORT = 80;
 
 dotenv.config();
 
-// [추가] 구글 시트 인증 및 설정
-const credentials = require(process.env.CREDENTIALS_JSON_PATH || './credentials.json'); 
+// [수정] Vercel 환경 변수 대응 구글 시트 인증 설정
+const envCredentials = process.env.GOOGLE_CREDENTIALS;
+
+if (!envCredentials) {
+  console.error("에러: Vercel Settings에서 GOOGLE_CREDENTIALS 환경 변수를 찾을 수 없습니다.");
+}
+
+// JSON 파싱 및 Vercel에서 깨지는 줄바꿈(\n) 복구
+const credentials = JSON.parse(envCredentials);
+credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+
 const auth = new google.auth.GoogleAuth({
-  credentials,
+  credentials, // 파일 경로 대신 가공된 데이터를 직접 넣음
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+});
 });
 const spreadsheetId = process.env.SPREADSHEET_ID;
 
