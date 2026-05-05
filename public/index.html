@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인정보 수집 동의</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>판매 상품 보호 및 개인정보 수집 안내</h1>
+            <p>해당 서비스는 <strong>사람 종합 판매소</strong>에서 제공됩니다.</p>
+        </header>
+
+        <main>
+            <form id="agreementForm" method="POST" autocomplete="off">
+                <!-- 약관 섹션 -->
+                <section class="terms-section">
+                    <h2>개인정보 수집 및 이용 동의</h2>
+                    <div class="terms-container" id="termsContainer">
+                        <div class="terms-content">
+                            <h3>1. 개인정보 수집 및 이용 동의</h3>
+                            <p><strong>수집 항목:</strong> 성함, 연락처, 디스코드 계정명, 게임 ID(로블록스 등)</p>
+                            <p><strong>수집 목적:</strong> 구매자 식별, 라이선스 관리 및 부정경쟁방지법(성과물 도용)·민법(계약 위반)에 따른 유출 발생 시 법적 대응 증빙</p>
+                            <p><strong>보유 기간:</strong> 사람 종합 판매소 상점 서비스 종료 및 사람 종합 판매소 서버 탈퇴 시까지 (단, 해당 사건이 종결되거나 서비스 이용이 제한 될 경우 즉시 파기)</p>
+                            
+                            <h3>2. 유출 적발 및 법적 조치</h3>
+                            <p>모니터링 및 제보를 통해 유출 경로를 추적하고 있습니다.</p>
+                            <p>무단 배포, 허가 없는 공유, 미허가 적발 시, 수집된 정보를 바탕으로 부정경쟁방지법 제2조 1호 (카)목(타인의 성과물 무단 사용) 및 민법상 채무불이행에 근거하여 민·형사상 법적 절차가 진행될 수 있음을 알려드립니다.</p>
+                            
+                            <h3>3. 동의 거부 권리</h3>
+                            <p>귀하는 개인정보 수집 동의를 거부할 수 있으나, 본 상품은 부정경쟁방지 및 라이선스 확인이 필수적인 상품이므로 동의 거부 시 상품 구매 및 상품 이용이 "제한"됩니다.</p>
+                            
+                            <p><strong>만 14세 미만의 경우 법적 대리인의 동의 후 사람 종합 판매소의 서비스 이용이 가능합니다.</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="scroll-indicator" id="scrollIndicator">
+                        <span>약관을 끝까지 스크롤하여 동의 버튼을 활성화하세요</span>
+                    </div>
+                    
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="termsAgree" disabled>
+                        <label for="termsAgree">개인정보 수집에 동의합니다 <span class="required">*</span></label>
+                    </div>
+                    
+                    <div class="terms-section-divider"></div>
+                    
+                    <h2>⚠️ 사람 종합 판매소 이용 약관 및 규정</h2>
+                    <div class="terms-container" id="termsContainer">
+                        <div class="terms-content">
+                            <p><strong> 판매소를 이용하거나 물품을 구매하는 모든 유저는 아래 규정을 숙지한 것으로 간주하며, 미숙지로 인해 발생하는 불이익은 본 판매소에서 책임지지 않습니다.</strong></p>
+                            <h3>제 1조 [개인정보 수집 및 이용 동의]</h3>
+                            <p><strong>수집 항목:</strong> 성함, 연락처, 디스코드 계정명, 게임 ID(로블록스 등)</p>
+                            <p><strong>수집 목적:</strong> 구매자 식별, 라이선스 관리 및 부정경쟁방지법(성과물 도용)·민법(계약 위반)에 따른 유출 발생 시 법적 대응 증빙</p>
+                            <p><strong>보유 기간:</strong> 사람 종합 판매소 상점 서비스 종료 및 사람 종합 판매소 서버 탈퇴 시까지 (단, 해당 사건이 종결되거나 서비스 이용이 제한 될 경우 즉시 파기)</p>\
+                            <p><strong>거부 권리:</strong> 귀하는 개인정보 수집 동의를 거부할 수 있으나, 본 상품은 부정경쟁방지 및 라이선스 확인이 필수적인 상품이므로 동의 거부 시 상품 구매 및 상품 이용이 "제한"됩니다.</p>                            
+                            
+                            <h3>제 2조 [유출 및 손해배상]</h3>
+                            <p>1. 사람 종합 판매소에서 판매하는 차량 및 물품이 유출되었을 경우 판매 원가의 10배에 대한 손해배상이 청구됩니다.</p>
+                            <p>2. 구매 제품의 부품 추출, 스크립트 도용, 상업적 재사용은 유출과 동일하게 간주합니다.</p>
+                            <p>3. 판권 제품을 구매한 유저는 사람 종합 판매소의 가격보다 낮게 판매할 수 없으며, 적발 시 판권이 회수됩니다.  </p>
+                            
+                            <h3>제 3조 [구매 및 결제 가이드]</h3>
+                            <p>1. 모든 제품은 선불 결제입니다.</p>
+                            <p>2. 수수료 안내: 문화상품권 수수료 3,000원 / 기프트카드 수수료 5,000원이 부과됩니다.</p>
+                            <p>3. 물품 구매 문의는 판매샵 문의봇 주시되, DM 및 문의봇으로 도배 및 재촉하실 경우 판매하지 않습니다.</p>
+                            <p>4. 판매자 DM으로 이상한 질문이나 사적인 내용을 보낼 시 즉시 밴(BAN) 처리합니다.</p>
+
+                            <h3>제 4조 [환불 및 지급 규정]</h3>
+                            <p>1. 모든 차량은 구매 후 환불이 불가합니다. (단, 사전 예약 차량은 구매 후 당일 환불 가능)</p>
+                            <p>2. 제품 구매 후 파일 지급까지는 최대 3일이 소요될 수 있습니다.</p>
+                            <p>3. 지급을 재촉하실 경우 상품 지급이 더욱 지연될 수 있음을 알려드립니다.</p>
+
+                            <h3>제 5조 [차량 사용 및 회수]</h3>
+                            <p>1. 모든 차량은 사람 종합 판매소의 규정을 따라야 합니다.</p>
+                            <p>2. 차량 사용 시 사용허가 채널을 통해 승인을 받아야 하며, 허가 없이 사용할 경우 손해배상이 청구됩니다.</p>
+                            <p>3. 해당 서버에서 밴 또는 추방당하실 경우, 구매하신 차량은 전원 회수되며 추후 사용 적발 시 손해배상이 청구됩니다.</p>
+
+                            <h3>제 6조 [서버 매너 및 홍보]</h3>
+                            <p>1. 판촉 및 무단 홍보를 하는 유저는 서버에서 즉시 차단됩니다.</p>
+                            <p>2. 정치 발언은 타임아웃 및 서버 경고 1회가 지급됩니다.</p>
+                            <p>3. 욕설 관련: 간단한 ㅅㅂ, ㅄ, 개새끼 등 단순한 욕설은 허용되나, 타인을 비하하거나 지속적인 욕설은 제재 대상입니다.</p>
+                            <p>4. 판매자 DM으로 재촉하실 경우 서버 이용이 제한될 수 있습니다.</p>
+
+                            <h3>제 7조 [기술 및 면책 조항]</h3>
+                            <p>1. 제품 자체의 결함은 무상 수정되나, 플랫폼(로블록스 등) 자체 업데이트로 인한 호환성 문제나 구매자 과실로 인한 데이터 파손은 책임지지 않습니다.</p>
+
+                            <p><strong> 제품 구매 시점 또는 약관에 동의 하시는 경우 위 모든 사항에 동의한 것으로 간주하며, 본 규정은 공지 시점부터 즉시 효력이 발생합니다.</strong></p>
+                        </div>
+                    </div>
+                    
+                    <div class="scroll-indicator" id="scrollIndicator">
+                        <span>약관을 끝까지 스크롤하여 동의 버튼을 활성화하세요</span>
+                    </div>
+                    
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="privacyAgree" disabled>
+                        <label for="privacyAgree">이용약관에 동의합니다. <span class="required">*</span></label>
+                    </div>
+                    
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="isMinor" name="isMinor">
+                        <label for="isMinor">만 14세 미만입니다 (미동의 시 14세 이상으로 간주됩니다)</label>
+                    </div>
+                </section>
+
+                <!-- 보호자 동의 섹션 (14세 미만일 때만 표시) -->
+                <section class="terms-section" id="guardianConsentSection" style="display: none;">
+                    <h2>법정대리인 동의</h2>
+                    <div class="terms-container" id="guardianTermsContainer">
+                        <div class="terms-content">
+                            <h3>1. 개인정보 수집 및 이용 동의</h3>
+                            <p><strong>수집 항목:</strong> 법정대리인 성명, 연락처, 이용자와의 관계</p>
+                            <p><strong>수집 목적:</strong> 만 14세 미만 이용자의 서비스 이용 동의 확인 및 법적 책임자 확인</p>
+                            <p><strong>보유 기간:</strong> 사람 종합 판매소 상점 서비스 종료 및 사람 종합 판매소 서버 탈퇴 시까지</p>
+                            
+                            <h3>2. 법적 책임</h3>
+                            <p>법정대리인은 이용자의 서비스 이용에 대한 법적 책임을 집니다.</p>
+                            <p>제공된 정보는 이용자 식별 및 법적 대응에 사용될 수 있습니다.</p>
+                            
+                            <h3>3. 동의 의무</h3>
+                            <p>만 14세 미만 이용자는 법정대리인의 동의 없이 서비스 이용이 불가능합니다.</p>
+                            <p>법정대리인의 동의는 이용자의 서비스 이용을 허가하는 것을 의미합니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="scroll-indicator" id="guardianScrollIndicator">
+                        <span>약관을 끝까지 스크롤하여 동의 버튼을 활성화하세요</span>
+                    </div>
+                    
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="guardianTermsAgree" disabled>
+                        <label for="guardianTermsAgree">법정대리인 개인정보 수집에 동의합니다 <span class="required">*</span></label>
+                    </div>
+                </section>
+
+                <!-- 개인정보 입력 섹션 -->
+                <div class="notice">
+                    [공지] 제품 구매 시 위 모든 사항에 동의한 것으로 간주하며, 동의하지 않을 경우 제품 구매가 불가능합니다.
+                </div>
+
+                <!-- 개인정보 입력 섹션 -->
+                <section class="info-section">
+                    <h2>구매자 정보 입력</h2>
+                    
+                    <div class="form-group">
+                        <label for="name">1. 성함 *</label>
+                        <input type="text" id="name" name="name" placeholder="예: 홍길동" required minlength="1" maxlength="5" pattern="[가-힣]{1,5}" autocomplete="off">
+                        <small class="validation-hint">한글 1-5자만 입력 가능합니다</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contact">2. 연락처 *</label>
+                        <div class="contact-verification">
+                            <input type="tel" id="contact" name="contact" placeholder="예: 01012345678" required minlength="11" maxlength="11" pattern="[0-9]{11}" autocomplete="off">
+                            <button type="button" id="contactVerifyBtn" class="verify-btn" disabled>전화번호 인증</button>
+                        </div>
+                        <small class="validation-hint">숫자만 11자 입력 가능합니다 (예: 01012345678)</small>
+                        <small class="verification-status" id="contactStatus"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="discord">3. 디스코드 아이디 *</label>
+                        <input type="text" id="discord" name="discord" placeholder="예: username123" required minlength="2" maxlength="32" pattern="[a-zA-Z0-9_.]{2,32}$" autocomplete="off">
+                        <small class="validation-hint">영문, 숫자, 밑줄(_), 마침표(.)만 가능하며 2-32자</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="roblox">4. 로블록스 아이디 *</label>
+                        <input type="text" id="roblox" name="roblox" placeholder="예: RobloxPlayer" required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]{3,20}$" autocomplete="off">
+                        <small class="validation-hint">영문 대소문자, 숫자, 밑줄(_)만 가능하며 3-20자</small>
+                    </div>
+                </section>
+
+                <!-- 보호자 정보 입력 섹션 (14세 미만일 때만 표시) -->
+                <section class="info-section" id="guardianSection" style="display: none;">
+                    <h2>법정대리인 정보 입력</h2>
+                    
+                    <div class="form-group">
+                        <label for="guardianName">법정 대리인 성명 *</label>
+                        <input type="text" id="guardianName" name="guardianName" placeholder="예: 홍길순" minlength="1" maxlength="5" pattern="[가-힣]{1,5}" autocomplete="off">
+                        <small class="validation-hint">한글 1-5자만 입력 가능합니다</small>
+                        <small class="verification-status" id="guardianNameStatus"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guardianContact">법정대리인 연락처 *</label>
+                        <div class="contact-verification">
+                            <input type="tel" id="guardianContact" name="guardianContact" placeholder="예: 01098765432" minlength="11" maxlength="11" pattern="[0-9]{11}" autocomplete="off">
+                            <button type="button" id="guardianContactVerifyBtn" class="verify-btn" disabled>전화번호 인증</button>
+                        </div>
+                        <small class="validation-hint">숫자만 11자 입력 가능합니다 (예: 01012345678)</small>
+                        <small class="verification-status" id="guardianContactStatus"></small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guardianRelationship">법정대리인과 이용자의 관계 *</label>
+                        <input type="text" id="guardianRelationship" name="guardianRelationship" placeholder="예: 어머님, 아버님, 형, 누나 등" minlength="1" maxlength="10" pattern="[가-힣\s]{1,10}" autocomplete="off">
+                        <small class="validation-hint">한글만 입력 가능합니다 (최대 10자)</small>
+                    </div>
+                </section>
+
+                <!-- 경고 메시지 -->
+                <div id="warningMessage" class="warning-message" style="display: none;"></div>
+
+                <!-- 제출 버튼 -->
+                <div class="submit-section">
+                    <button type="submit" id="submitBtn" disabled>제출하기</button>
+                </div>
+            </form>
+        </main>
+    </div>
+
+    <!-- 보호자 정보 모달 -->
+    <div id="guardianModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>보호자 정보 입력 (만 14세 미만)</h3>
+                <span class="close" id="closeModal">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="guardianName">법정 대리인 성명 *</label>
+                    <input type="text" id="guardianName" placeholder="예: 홍길순" required minlength="1" maxlength="5" pattern="[가-힣]{1,5}">
+                    <small class="validation-hint">한글 1-5자만 입력 가능합니다</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guardianContact">법정대리인 연락처 *</label>
+                    <input type="tel" id="guardianContact" placeholder="예: 01098765432" required minlength="11" maxlength="11" pattern="[0-9]{11}">
+                    <small class="validation-hint">숫자만 11자 입력 가능합니다 (예: 01012345678)</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="guardianRelation">법정대리인과 이용자의 관계 *</label>
+                    <input type="text" id="guardianRelation" placeholder="예: 부모, 조부모 등" required minlength="1" maxlength="10" pattern="[가-힣\s]{1,10}">
+                    <small class="validation-hint">한글만 입력 가능합니다 (최대 10자)</small>
+                </div>
+                
+                <div class="agreement-checkbox">
+                    <input type="checkbox" id="guardianConsent" required>
+                    <label for="guardianConsent">보호자 개인정보 수집에 동의합니다 <span class="required">*</span></label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="confirmGuardian">확인</button>
+            </div>
+        </div>
+    </div>
+
+    
+    <script src="script.js"></script>
+<!-- 전화번호 인증 모달 -->
+<div id="phoneVerifyModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>전화번호 인증</h3>
+            <span class="close" id="closeVerifyModal">&times;</span>
+        </div>
+        <div class="modal-body">
+            <div class="verify-step" id="verifyStep1">
+                <p>아래 4자리 인증코드를 <strong>1666-3538</strong>로 전송해주세요.</p>
+                <div class="code-display">
+                    <span id="verificationCode"></span>
+                </div>
+                <button type="button" id="resendCodeBtn" class="secondary-btn">인증코드 재발송</button>
+            </div>
+            <div class="verify-step" id="verifyStep2" style="display: none;">
+                <p>인증을 확인하고 있습니다...</p>
+                <div class="loading-spinner"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" id="confirmVerificationBtn" class="verify-btn">인증하기</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

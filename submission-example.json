@@ -1,0 +1,15 @@
+{
+  "name": "홍길동",
+  "contact": "01012345678",
+  "discord": "gildong123",
+  "roblox": "RobloxPlayer",
+  "isMinor": true,
+  "privacyAgreed": true,
+  "termsAgreed": true,
+  "submittedAt": "2026-05-04T22:55:00.000Z",
+  "guardian": {
+    "name": "홍길순",
+    "contact": "01098765432",
+    "relationship": "어머님"
+  }
+}

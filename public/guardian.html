@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>법정대리인 동의</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>법정대리인 동의</h1>
+            <p>만 14세 미만 이용자의 법정대리인 동의가 필요합니다.</p>
+        </header>
+
+        <main>
+            <form id="guardianForm">
+                <!-- 약관 섹션 -->
+                <section class="terms-section">
+                    <h2>법정대리인 개인정보 수집 동의</h2>
+                    <div class="terms-container" id="guardianTermsContainer">
+                        <div class="terms-content">
+                            <h3>1. 개인정보 수집 및 이용 동의</h3>
+                            <p><strong>수집 항목:</strong> 법정대리인 성명, 연락처, 이용자와의 관계</p>
+                            <p><strong>수집 목적:</strong> 만 14세 미만 이용자의 서비스 이용 동의 확인 및 법적 책임자 확인</p>
+                            <p><strong>보유 기간:</strong> 사람 종합 판매소 상점 서비스 종료 및 사람 종합 판매소 서버 탈퇴 시까지</p>
+                            
+                            <h3>2. 법적 책임</h3>
+                            <p>법정대리인은 이용자의 서비스 이용에 대한 법적 책임을 집니다.</p>
+                            <p>제공된 정보는 이용자 식별 및 법적 대응에 사용될 수 있습니다.</p>
+                            
+                            <h3>3. 동의 의무</h3>
+                            <p>만 14세 미만 이용자는 법정대리인의 동의 없이 서비스 이용이 불가능합니다.</p>
+                            <p>법정대리인의 동의는 이용자의 서비스 이용을 허가하는 것을 의미합니다.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="scroll-indicator" id="guardianScrollIndicator">
+                        <span>약관을 끝까지 스크롤하여 동의 버튼을 활성화하세요</span>
+                    </div>
+                    
+                    <div class="agreement-checkbox">
+                        <input type="checkbox" id="guardianTermsAgree" disabled>
+                        <label for="guardianTermsAgree">법정대리인 개인정보 수집에 동의합니다 <span class="required">*</span></label>
+                    </div>
+                </section>
+
+                <!-- 경고 메시지 -->
+                <div id="warningMessage" class="warning-message" style="display: none;"></div>
+
+                <!-- 보호자 정보 입력 섹션 -->
+                <section class="info-section">
+                    <h2>법정대리인 정보 입력</h2>
+                    
+                    <div class="form-group">
+                        <label for="guardianName">법정 대리인 성명 *</label>
+                        <input type="text" id="guardianName" placeholder="예: 홍길순" required minlength="1" maxlength="5" pattern="[가-힣]{1,5}">
+                        <small class="validation-hint">한글 1-5자만 입력 가능합니다</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guardianContact">법정대리인 연락처 *</label>
+                        <input type="tel" id="guardianContact" placeholder="예: 01098765432" required minlength="11" maxlength="11" pattern="[0-9]{11}">
+                        <small class="validation-hint">숫자만 11자 입력 가능합니다 (예: 01012345678)</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="guardianRelation">법정대리인과 이용자의 관계 *</label>
+                        <input type="text" id="guardianRelation" placeholder="예: 부모, 조부모 등" required minlength="1" maxlength="10" pattern="[가-힣\s]{1,10}">
+                        <small class="validation-hint">한글만 입력 가능합니다 (최대 10자)</small>
+                    </div>
+                </section>
+
+                <!-- 제출 버튼 -->
+                <div class="submit-section">
+                    <button type="submit" id="guardianSubmitBtn" disabled>최종 제출하기</button>
+                    <button type="button" id="backBtn" class="secondary-btn">이전으로</button>
+                </div>
+            </form>
+        </main>
+    </div>
+    
+    <script src="guardian.js"></script>
+</body>
+</html>
