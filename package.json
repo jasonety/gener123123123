@@ -1,7 +1,7 @@
 {
   "name": "policy-agreement-app",
   "version": "1.0.0",
-    "type": "module",
+     "type": "module",
   "description": "Terms agreement and data collection application",
   "main": "server.js",
   "scripts": {
