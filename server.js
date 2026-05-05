@@ -24,7 +24,6 @@ const auth = new google.auth.GoogleAuth({
   credentials, // 파일 경로 대신 가공된 데이터를 직접 넣음
   scopes: ['https://www.googleapis.com/auth/spreadsheets'],
 });
-});
 const spreadsheetId = process.env.SPREADSHEET_ID;
 
 const codeStore = require('./services/code-store');
